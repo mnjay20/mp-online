@@ -16,6 +16,17 @@ export class JobsController {
     return ApiResponse.success(res, job);
   }
 
+  static async createJob(req: Request, res: Response) {
+    const job = await JobsService.createJob(req.body);
+    return ApiResponse.success(res, job, 201);
+  }
+
+  static async getJobCandidates(req: Request, res: Response) {
+    const id = getParam(req, 'id');
+    const candidates = await JobsService.getJobCandidates(id);
+    return ApiResponse.success(res, candidates);
+  }
+
   static async getAllInternships(req: Request, res: Response) {
     const { work_mode, location } = req.query as { work_mode?: string; location?: string };
     const internships = await JobsService.getAllInternships({ work_mode, location });
@@ -27,4 +38,16 @@ export class JobsController {
     const internship = await JobsService.getInternshipById(id);
     return ApiResponse.success(res, internship);
   }
+
+  static async createInternship(req: Request, res: Response) {
+    const internship = await JobsService.createInternship(req.body);
+    return ApiResponse.success(res, internship, 201);
+  }
+
+  static async getInternshipCandidates(req: Request, res: Response) {
+    const id = getParam(req, 'id');
+    const candidates = await JobsService.getInternshipCandidates(id);
+    return ApiResponse.success(res, candidates);
+  }
 }
+

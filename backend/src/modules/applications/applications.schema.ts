@@ -3,6 +3,9 @@ import { z } from 'zod';
 export const applicationStatusEnum = z.enum([
   'SAVED',
   'APPLIED',
+  'REVIEWING',
+  'INTERVIEW_SCHEDULED',
+  'OFFER',
   'SCREENING',
   'SHORTLISTED',
   'INTERVIEW',
@@ -32,3 +35,12 @@ export const updateApplicationSchema = z.object({
   notes: z.string().max(1000).optional(),
   applied_at: z.string().optional(),
 });
+
+export const transitionStatusSchema = z.object({
+  status: applicationStatusEnum,
+  notes: z.string().max(1000).optional(),
+});
+
+export type CreateApplicationInput = z.infer<typeof createApplicationSchema>;
+export type UpdateApplicationInput = z.infer<typeof updateApplicationSchema>;
+export type TransitionStatusInput = z.infer<typeof transitionStatusSchema>;
