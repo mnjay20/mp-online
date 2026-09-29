@@ -566,8 +566,8 @@ export const interviewApi = {
 // 10. AI Career Copilot
 // =============================================================================
 export const copilotApi = {
-  chat: (message: string, conversationId?: string) =>
-    apiRequest(
+  chat: async (message: string, conversationId?: string) => {
+    const raw = await apiRequest<any>(
       '/ai/chat',
       { method: 'POST', body: JSON.stringify({ message, conversation_id: conversationId }) },
       {
@@ -593,5 +593,20 @@ export const copilotApi = {
           'Practice a 5-question AI Mock Interview on Distributed Systems',
         ],
       }
-    ),
+    );
+
+    const textMessage =
+      typeof raw.message === 'string'
+        ? raw.message
+        : raw.message?.content || raw.structured_data?.message || 'I have analyzed your query.';
+    const structured = raw.structured_data || {};
+
+    return {
+      conversation_id: raw.conversation_id,
+      message: textMessage,
+      confidence: structured.confidence ?? raw.confidence ?? 0.95,
+      recommendations: structured.recommendations ?? raw.recommendations ?? [],
+      next_actions: structured.next_actions ?? raw.next_actions ?? [],
+    };
+  },
 };

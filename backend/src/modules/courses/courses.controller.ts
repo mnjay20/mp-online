@@ -29,7 +29,7 @@ export class CoursesController {
     const skillsParam = req.query.skills as string | undefined;
     const skills = skillsParam
       ? skillsParam.split(',').map((s) => s.trim()).filter(Boolean)
-      : (req.body?.skills || []);
+      : (req.body?.skills || req.body?.skill_names || []);
     const careerTitle = (req.query.career_title as string) || req.body?.career_title;
     const studentId = req.studentId || req.body?.student_id;
 

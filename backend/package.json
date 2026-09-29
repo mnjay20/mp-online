@@ -7,7 +7,9 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "tsx tests/smoke.test.ts"
+    "test": "tsx tests/smoke.test.ts",
+    "test:e2e": "tsx tests/e2e_full_platform.test.ts",
+    "test:all": "tsx tests/smoke.test.ts && tsx tests/admin_courses.test.ts && tsx tests/recruiter_ats.test.ts && tsx tests/resume_pipeline.test.ts && tsx tests/e2e_full_platform.test.ts"
   },
   "keywords": [
     "express",
