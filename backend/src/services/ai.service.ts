@@ -63,8 +63,37 @@ export class AIService {
     return this.post('/ai/interview/generate', payload);
   }
 
-  static async evaluateInterviewAnswer(payload: { question_text: string; student_answer: string; target_career?: string }) {
+  static async evaluateInterviewAnswer(payload: { question_text: string; student_answer: string; target_career?: string; interview_type?: string }) {
     return this.post('/ai/interview/evaluate', payload);
+  }
+
+  static async processInterviewTurn(payload: {
+    interview_id?: string;
+    student_id?: string;
+    turn_number: number;
+    total_turns: number;
+    target_role: string;
+    interview_type: string;
+    current_question: string;
+    student_answer: string;
+  }) {
+    return this.post('/ai/interview/turn', payload);
+  }
+
+  static async generateInterviewReport(payload: {
+    student_id?: string;
+    interview_id: string;
+    career_title: string;
+    turns: Array<{
+      turn_number: number;
+      question: string;
+      answer: string;
+      score: number;
+      strengths: string;
+      weaknesses: string;
+    }>;
+  }) {
+    return this.post('/ai/interview/report', payload);
   }
 
   static async matchJobs(payload: { student_id: string; job_ids?: string[] }) {

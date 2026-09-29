@@ -13,3 +13,16 @@ export const submitAnswerSchema = z.object({
   question_id: z.string().uuid('Valid question UUID required'),
   student_answer: z.string().min(1, 'Answer cannot be empty'),
 });
+
+export const processTurnSchema = z.object({
+  turn_number: z.number().int().min(1),
+  total_turns: z.number().int().min(1).default(5),
+  target_role: z.string().default('Software Engineer'),
+  interview_type: z.string().default('TECHNICAL'),
+  current_question: z.string().min(1),
+  student_answer: z.string().min(1),
+});
+
+export const generateReportSchema = z.object({
+  career_title: z.string().default('Software Engineer'),
+});

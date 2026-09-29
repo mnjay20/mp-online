@@ -18,7 +18,7 @@ export class InterviewsService {
     const interviewTitle = payload.title || `${payload.interview_type} Interview Simulation`;
 
     // Create interview record
-    const { data: interview, error: interviewError } = await supabaseAdmin
+    const { data: interview, error: interviewError } = await (supabaseAdmin as any)
       .from('interviews')
       .insert({
         student_id: studentId,
@@ -54,7 +54,7 @@ export class InterviewsService {
       expected_topics: item.expected_topics || [],
     }));
 
-    const { data: insertedQuestions, error: questionsError } = await supabaseAdmin
+    const { data: insertedQuestions, error: questionsError } = await (supabaseAdmin as any)
       .from('interview_questions')
       .insert(rowsToInsert)
       .select();
@@ -75,7 +75,7 @@ export class InterviewsService {
       .eq('id', questionId)
       .single();
 
-    if (questionError || !question || question.interview?.student_id !== studentId) {
+    if (questionError || !question || (question.interview as any)?.student_id !== studentId) {
       throw new NotFoundError('Interview question not found or unauthorized');
     }
 
@@ -86,7 +86,7 @@ export class InterviewsService {
     }) as any;
 
     // Insert answer record
-    const { data: savedAnswer, error: answerError } = await supabaseAdmin
+    const { data: savedAnswer, error: answerError } = await (supabaseAdmin as any)
       .from('interview_answers')
       .insert({
         question_id: questionId,
@@ -101,5 +101,75 @@ export class InterviewsService {
 
     if (answerError) throw answerError;
     return savedAnswer;
+  }
+
+  static async processTurn(
+    studentId: string,
+    interviewId: string,
+    payload: {
+      turn_number: number;
+      total_turns: number;
+      target_role: string;
+      interview_type: string;
+      current_question: string;
+      student_answer: string;
+    }
+  ) {
+    return await AIService.processInterviewTurn({
+      interview_id: interviewId,
+      student_id: studentId,
+      turn_number: payload.turn_number,
+      total_turns: payload.total_turns,
+      target_role: payload.target_role,
+      interview_type: payload.interview_type,
+      current_question: payload.current_question,
+      student_answer: payload.student_answer,
+    });
+  }
+
+  static async generateReport(studentId: string, interviewId: string, careerTitle: string) {
+    const { data: interview, error } = await supabaseAdmin
+      .from('interviews')
+      .select('*, questions:interview_questions(*, answers:interview_answers(*))')
+      .eq('id', interviewId)
+      .eq('student_id', studentId)
+      .single();
+
+    if (error || !interview) {
+      throw new NotFoundError('Interview session not found or unauthorized');
+    }
+
+    const turns = (interview.questions || []).map((q: any, idx: number) => {
+      const ans = q.answers?.[0] || {};
+      return {
+        turn_number: idx + 1,
+        question: q.question_text,
+        answer: ans.student_answer || '',
+        score: ans.score || 70,
+        strengths: ans.strengths || '',
+        weaknesses: ans.weaknesses || '',
+      };
+    });
+
+    const report = await AIService.generateInterviewReport({
+      student_id: studentId,
+      interview_id: interviewId,
+      career_title: careerTitle,
+      turns,
+    }) as any;
+
+    await (supabaseAdmin as any)
+      .from('interviews')
+      .update({
+        status: 'COMPLETED',
+        overall_score: report.overall_score,
+        technical_score: report.radar_metrics?.['Technical Depth'] || report.overall_score,
+        communication_score: report.radar_metrics?.['Communication & Clarity'] || report.overall_score,
+        problem_solving_score: report.radar_metrics?.['Problem Solving & Structure'] || report.overall_score,
+        feedback: report.summary_evaluation,
+      })
+      .eq('id', interviewId);
+
+    return report;
   }
 }

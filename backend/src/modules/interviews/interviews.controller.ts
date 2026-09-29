@@ -28,4 +28,27 @@ export class InterviewsController {
     const answer = await InterviewsService.submitAnswer(student.id, id, question_id, student_answer);
     return ApiResponse.success(res, answer, 201);
   }
+
+  /**
+   * Real-time Interactive Turn Evaluation with Guardrails & Persona Feedback
+   */
+  static async processTurn(req: Request, res: Response) {
+    if (!req.user) throw new UnauthorizedError();
+    const student = await StudentService.requireStudent(req.user.id);
+    const id = getParam(req, 'id');
+    const result = await InterviewsService.processTurn(student.id, id, req.body);
+    return ApiResponse.success(res, result);
+  }
+
+  /**
+   * Generate Final Comprehensive Interview Performance Scorecard
+   */
+  static async generateReport(req: Request, res: Response) {
+    if (!req.user) throw new UnauthorizedError();
+    const student = await StudentService.requireStudent(req.user.id);
+    const id = getParam(req, 'id');
+    const careerTitle = req.body?.career_title || 'Software Engineer';
+    const report = await InterviewsService.generateReport(student.id, id, careerTitle);
+    return ApiResponse.success(res, report);
+  }
 }

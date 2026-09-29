@@ -12,6 +12,10 @@ class Settings(BaseSettings):
     EMBEDDING_MODEL: str = "models/text-embedding-004"
     TAVILY_API_KEY: str = ""
     
+    # Groq API for Whisper STT
+    GROQ_API_KEY: str = ""
+    GROQ_WHISPER_MODEL: str = "whisper-large-v3-turbo"
+    
     # Backend URL for internal callbacks / queries if needed
     BACKEND_URL: str = "http://localhost:5000"
     
