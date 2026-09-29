@@ -16,6 +16,18 @@ export class AppError extends Error {
   }
 }
 
+export class BadRequestError extends AppError {
+  constructor(message = 'Bad request', details?: unknown) {
+    super(message, 400, 'BAD_REQUEST', details);
+  }
+}
+
+export class InternalServerError extends AppError {
+  constructor(message = 'Internal server error', details?: unknown) {
+    super(message, 500, 'INTERNAL_SERVER_ERROR', details);
+  }
+}
+
 export class ValidationError extends AppError {
   constructor(message = 'Invalid request payload', details?: unknown) {
     super(message, 400, 'VALIDATION_ERROR', details);
