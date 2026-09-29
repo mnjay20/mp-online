@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     GOOGLE_API_KEY: str = "placeholder-gemini-key"
     GEMINI_MODEL: str = "gemini-3.5-flash-lite"
     EMBEDDING_MODEL: str = "models/text-embedding-004"
+    TAVILY_API_KEY: str = ""
     
     # Backend URL for internal callbacks / queries if needed
     BACKEND_URL: str = "http://localhost:5000"

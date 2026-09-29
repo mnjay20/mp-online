@@ -74,4 +74,13 @@ export class AIService {
   static async matchInternships(payload: { student_id: string; internship_ids?: string[] }) {
     return this.post('/ai/match/internships', payload);
   }
+
+  static async recommendGapCourses(payload: {
+    skills: string[];
+    student_id?: string;
+    career_title?: string;
+    max_web_results_per_skill?: number;
+  }) {
+    return this.post('/ai/courses/recommend-gap-courses', payload);
+  }
 }

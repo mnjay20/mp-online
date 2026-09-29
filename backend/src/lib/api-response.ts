@@ -25,6 +25,10 @@ export class ApiResponse {
     });
   }
 
+  static created<T>(res: Response, data: T, meta?: Partial<ApiResponseMeta>): Response {
+    return this.success(res, data, 201, meta);
+  }
+
   /**
    * Sends a standardized error JSON response
    */

@@ -45,6 +45,7 @@ export const createApp = (): Express => {
   app.use('/api/skills', skillsRoutes);
   app.use('/api/careers', careersRoutes);
   app.use('/api/courses', coursesRoutes);
+  app.use('/api/admin/courses', coursesRoutes);
   app.use('/api/jobs', jobsRoutes);
   app.use('/api/internships', internshipsRoutes);
   app.use('/api/applications', applicationsRoutes);

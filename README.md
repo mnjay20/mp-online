@@ -42,7 +42,7 @@ A production-grade, modular platform engineered to empower students navigating t
 - **Opportunities & Applications**: Job and internship listings with hybrid semantic matching and mutually exclusive application target constraints.
 - **Resume Intelligence**: Private Supabase Storage bucket file tracking and AI-driven ATS evaluation and bullet-point enhancements.
 - **Mock Interviews**: Adaptive technical, behavioral, and role-specific interview simulators with multi-dimensional scoring.
-- **AI Career Copilot**: Context-aware career mentor that dynamically constructs student context without leaking raw database access.
+- **AI Career Copilot**: Context-aware career guide that dynamically constructs student context without leaking raw database access.
 
 ---
 

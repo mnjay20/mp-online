@@ -11,6 +11,7 @@ from app.api.routes.roadmap import router as roadmap_router
 from app.api.routes.resume import router as resume_router
 from app.api.routes.interview import router as interview_router
 from app.api.routes.matching import router as matching_router
+from app.api.routes.courses import router as courses_router
 
 configure_logging()
 settings = get_settings()
@@ -48,6 +49,7 @@ app.include_router(roadmap_router)
 app.include_router(resume_router)
 app.include_router(interview_router)
 app.include_router(matching_router)
+app.include_router(courses_router)
 
 @app.on_event("startup")
 async def startup_event():

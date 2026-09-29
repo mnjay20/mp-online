@@ -15,7 +15,12 @@ export const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_ANON_KEY, {
  * Privileged Admin client using the Service Role Key for server-side management
  * NEVER expose this to clients or client responses.
  */
-export const supabaseAdmin = createClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, {
+const adminKey =
+  env.SUPABASE_SERVICE_ROLE_KEY && !env.SUPABASE_SERVICE_ROLE_KEY.includes('placeholder')
+    ? env.SUPABASE_SERVICE_ROLE_KEY
+    : env.SUPABASE_ANON_KEY;
+
+export const supabaseAdmin = createClient(env.SUPABASE_URL, adminKey, {
   auth: {
     persistSession: false,
     autoRefreshToken: false,

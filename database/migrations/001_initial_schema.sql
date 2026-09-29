@@ -64,7 +64,7 @@ EXCEPTION
 END $$;
 
 DO $$ BEGIN
-    CREATE TYPE user_role AS ENUM ('STUDENT', 'ADMIN', 'RECRUITER', 'MENTOR');
+    CREATE TYPE user_role AS ENUM ('STUDENT', 'ADMIN', 'RECRUITER');
 EXCEPTION
     WHEN duplicate_object THEN null;
 END $$;

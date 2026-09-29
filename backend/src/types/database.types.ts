@@ -1522,7 +1522,7 @@ export type Database = {
         | "PROJECT"
         | "CERTIFICATION"
         | "AI_INFERRED"
-      user_role: "STUDENT" | "ADMIN" | "RECRUITER" | "MENTOR"
+      user_role: "STUDENT" | "ADMIN" | "RECRUITER"
       work_mode: "REMOTE" | "HYBRID" | "ONSITE"
     }
     CompositeTypes: {
@@ -1694,7 +1694,7 @@ export const Constants = {
         "CERTIFICATION",
         "AI_INFERRED",
       ],
-      user_role: ["STUDENT", "ADMIN", "RECRUITER", "MENTOR"],
+      user_role: ["STUDENT", "ADMIN", "RECRUITER"],
       work_mode: ["REMOTE", "HYBRID", "ONSITE"],
     },
   },

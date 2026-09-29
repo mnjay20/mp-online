@@ -1,4 +1,4 @@
-export type UserRole = 'STUDENT' | 'ADMIN' | 'RECRUITER' | 'MENTOR';
+export type UserRole = 'STUDENT' | 'ADMIN' | 'RECRUITER';
 
 export interface AuthenticatedUser {
   id: string; // Supabase Auth user_id
