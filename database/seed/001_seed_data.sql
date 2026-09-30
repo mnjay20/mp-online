@@ -136,5 +136,95 @@ ON CONFLICT (job_id, skill_id) DO NOTHING;
 
 INSERT INTO internships (id, company_id, title, description, location, work_mode, duration, stipend) VALUES
 ('f0000000-0000-0000-0000-000000000001', 'd0000000-0000-0000-0000-000000000001', 'Backend Engineering Intern', 'Hands-on internship assisting with API development and database queries.', 'Bengaluru, India', 'REMOTE', '6 months', '25,000 / month'),
-('f0000000-0000-0000-0000-000000000002', 'd0000000-0000-0000-0000-000000000003', 'Software Engineering Intern', 'Collaborate with senior developers on building fintech backend microservices.', 'Mumbai, India', 'HYBRID', '3 months', '30,000 / month')
+('f0000000-0000-0000-0000-000000000002', 'd0000000-0000-0000-0000-000000000003', 'Software Engineering Intern', 'Collaborate with senior developers on building fintech backend microservices.', 'Mumbai, India', 'HYBRID', '3 months', '30,000 / month'),
+('f0000000-0000-0000-0000-000000000003', 'd0000000-0000-0000-0000-000000000006', 'DRDO Student Research Apprenticeship', '6-month research internship on cyber resilience, cryptography, and secure communications.', 'Bengaluru, India', 'ONSITE', '6 Months', '₹20,000 / month'),
+('f0000000-0000-0000-0000-000000000004', 'd0000000-0000-0000-0000-000000000008', 'ISRO Graduate Apprentice Trainee', '12-month technical apprenticeship on satellite earth observation data ingestion and AI telemetry processing.', 'Bengaluru, India', 'ONSITE', '12 Months', '₹18,000 / month'),
+('f0000000-0000-0000-0000-000000000005', 'd0000000-0000-0000-0000-000000000009', 'NAPS Cloud Infrastructure Apprentice', 'National Apprenticeship Promotion Scheme opportunity providing on-the-job training in Linux server administration and cloud networking.', 'New Delhi, India', 'HYBRID', '12 Months', '₹15,000 / month')
+ON CONFLICT (id) DO NOTHING;
+
+-- 6. Seed Public-Sector Companies & Government Jobs
+INSERT INTO companies (id, name, website, location, description) VALUES
+('d0000000-0000-0000-0000-000000000004', 'National Informatics Centre (NIC)', 'https://www.nic.in', 'New Delhi, India', 'Premier science & technology organisation of Government of India under MeitY, providing network backbone and e-Governance infrastructure.'),
+('d0000000-0000-0000-0000-000000000005', 'Centre for Development of Advanced Computing (C-DAC)', 'https://www.cdac.in', 'Pune, India', 'Premier R&D organization of MeitY for carrying out R&D in IT, Electronics and associated supercomputing areas.'),
+('d0000000-0000-0000-0000-000000000006', 'Defence Research and Development Organisation (DRDO)', 'https://www.drdo.gov.in', 'New Delhi, India', 'R&D wing of Ministry of Defence developing critical defence systems, secure communications, and autonomous AI.'),
+('d0000000-0000-0000-0000-000000000007', 'Centre for Railway Information Systems (CRIS / Railway Tech)', 'https://cris.org.in', 'New Delhi, India', 'Autonomous organization under Ministry of Railways designing and developing core software platforms for Indian Railways.'),
+('d0000000-0000-0000-0000-000000000008', 'Indian Space Research Organisation (ISRO)', 'https://www.isro.gov.in', 'Bengaluru, India', 'National space agency of India pursuing space research, satellite communications, and remote sensing applications.'),
+('d0000000-0000-0000-0000-000000000009', 'National Skill Development Corporation (NSDC / Skill India)', 'https://nsdcindia.org', 'New Delhi, India', 'Public-private partnership promoting nationwide vocational skills, PMKVY, and NAPS apprenticeship frameworks.')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO jobs (id, company_id, title, description, location, work_mode, employment_type, experience_min, experience_max, salary_min, salary_max, is_government, gov_category, eligibility_degrees) VALUES
+('e0000000-0000-0000-0000-000000000003', 'd0000000-0000-0000-0000-000000000004', 'Scientist-B (Cloud & Cyber Security)', 'Architect and defend national digital infrastructure, cloud datacenters, and secure APIs for Citizen Services under Digital India initiative.', 'New Delhi, India', 'ONSITE', 'FULL_TIME', 0, 2, 800000, 1400000, true, 'PSU', ARRAY['B.Tech', 'B.E.', 'MCA', 'M.Sc (CS/IT)']),
+('e0000000-0000-0000-0000-000000000004', 'd0000000-0000-0000-0000-000000000005', 'Project Engineer (High Performance Computing & Distributed Systems)', 'Develop distributed system software and parallel computing algorithms for PARAM supercomputers and AI clusters.', 'Pune, India', 'HYBRID', 'FULL_TIME', 0, 3, 650000, 1100000, true, 'RESEARCH', ARRAY['B.Tech', 'B.E.', 'MCA', 'M.Tech']),
+('e0000000-0000-0000-0000-000000000005', 'd0000000-0000-0000-0000-000000000006', 'Junior Research Scientist (Defence AI & Autonomous Systems)', 'Research algorithms for real-time sensor fusion, computer vision, and secure network protocols in defence applications.', 'Bengaluru, India', 'ONSITE', 'FULL_TIME', 0, 2, 750000, 1200000, true, 'DEFENCE', ARRAY['B.Tech', 'B.E.', 'M.Tech']),
+('e0000000-0000-0000-0000-000000000006', 'd0000000-0000-0000-0000-000000000007', 'Assistant Software Engineer (Indian Railways Digital Enterprise Platform)', 'Build enterprise ticketing, logistics tracking, and rail network management systems servicing 20M+ citizens daily.', 'New Delhi, India', 'ONSITE', 'FULL_TIME', 0, 2, 700000, 1200000, true, 'RAILWAYS', ARRAY['B.Tech', 'B.E.', 'MCA', 'B.Sc Computer Science'])
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO job_skills (job_id, skill_id, is_required) VALUES
+('e0000000-0000-0000-0000-000000000003', 'a0000000-0000-0000-0000-000000000002', true), -- Python
+('e0000000-0000-0000-0000-000000000003', 'a0000000-0000-0000-0000-000000000015', true), -- Docker
+('e0000000-0000-0000-0000-000000000003', 'a0000000-0000-0000-0000-000000000011', true), -- PostgreSQL
+('e0000000-0000-0000-0000-000000000004', 'a0000000-0000-0000-0000-000000000002', true), -- Python
+('e0000000-0000-0000-0000-000000000004', 'a0000000-0000-0000-0000-000000000020', true), -- Data Structures
+('e0000000-0000-0000-0000-000000000006', 'a0000000-0000-0000-0000-000000000001', true), -- Java
+('e0000000-0000-0000-0000-000000000005', 'a0000000-0000-0000-0000-000000000005', true)  -- SQL
+ON CONFLICT (job_id, skill_id) DO NOTHING;
+
+-- 7. Seed Government Schemes (Skill India, NEP 2020, Digital India)
+INSERT INTO government_schemes (id, scheme_code, title, category, ministry_or_body, description, eligibility_criteria, benefits, stipend_amount, official_portal_url, alignment_initiatives, target_skills) VALUES
+(
+  '90000000-0000-0000-0000-000000000001',
+  'NAPS-2026',
+  'National Apprenticeship Promotion Scheme (NAPS)',
+  'APPRENTICESHIP',
+  'Ministry of Skill Development and Entrepreneurship (MSDE)',
+  'Flagship Government of India initiative promoting technical apprenticeships with direct government DBT stipend sharing and National Apprenticeship Certificate issuance.',
+  '{"min_education": "B.Tech/Diploma/B.Sc", "fields_of_study": ["Computer Science", "Information Technology", "Electronics", "Any Engineering"], "age_min": 18, "age_max": 28}'::jsonb,
+  'Monthly government stipend contribution up to ₹1,500/month in addition to company stipend (totaling ₹15,000/mo), NCVT accredited industry credential.',
+  15000,
+  'https://www.apprenticeshipindia.gov.in',
+  ARRAY['Skill India', 'NEP 2020'],
+  ARRAY['Python', 'Node.js', 'SQL', 'Docker']
+),
+(
+  '90000000-0000-0000-0000-000000000002',
+  'PMKVY-4.0-AI',
+  'PMKVY 4.0 - FutureSkills AI & Cloud Certification Initiative',
+  'CERTIFICATION',
+  'National Skill Development Corporation (NSDC)',
+  'Under Skill India Mission, offers 100% government-sponsored certification in Artificial Intelligence, Big Data, and Cloud DevOps aligned with Industry 4.0 demand.',
+  '{"min_education": "Pursuing Graduation or Graduate", "fields_of_study": ["Any STEM", "Computer Science", "Electronics"], "min_gpa": 6.0}'::jsonb,
+  '100% Fee Waiver, Free National Level Certification Assessment, Direct Career Connect via Skill India Digital Portal.',
+  0,
+  'https://www.pmkvyofficial.org',
+  ARRAY['Skill India', 'Digital India', 'NEP 2020'],
+  ARRAY['Python', 'Machine Learning', 'Data Structures', 'Cloud Computing']
+),
+(
+  '90000000-0000-0000-0000-000000000003',
+  'MEITY-DIGITAL-INDIA-INTERN',
+  'Digital India Tech Internship Scheme',
+  'INTERNSHIP',
+  'Ministry of Electronics and Information Technology (MeitY)',
+  'Prestigious 2-month summer/winter internship for engineering students to architect and contribute to national digital public infrastructure (UPI, DigiLocker, India Stack).',
+  '{"min_education": "B.Tech/B.E./MCA", "fields_of_study": ["Computer Science", "IT", "Data Science", "Electronics"], "min_gpa": 7.5}'::jsonb,
+  'Monthly stipend of ₹20,000 + Certificate of Commendation from MeitY Secretary.',
+  20000,
+  'https://www.meity.gov.in/schemes',
+  ARRAY['Digital India', 'NEP 2020'],
+  ARRAY['REST APIs', 'SQL', 'PostgreSQL', 'Docker', 'Python']
+),
+(
+  '90000000-0000-0000-0000-000000000004',
+  'NEP-2020-MULTI-DISCIPLINARY',
+  'NEP 2020 Multi-Disciplinary Innovation & Research Fellowship',
+  'FELLOWSHIP',
+  'Department of Higher Education, Ministry of Education',
+  'In alignment with the National Education Policy 2020, grants academic credits and project fellowships for students solving cross-disciplinary societal engineering challenges.',
+  '{"min_education": "Undergraduate Enrolled", "fields_of_study": ["Any Recognized University Program"], "min_gpa": 7.0}'::jsonb,
+  '₹25,000 monthly research stipend + Academic Credit Transfer recognized under the Academic Bank of Credits (ABC).',
+  25000,
+  'https://www.education.gov.in/nep',
+  ARRAY['NEP 2020'],
+  ARRAY['Problem Solving', 'Data Structures', 'Python']
+)
 ON CONFLICT (id) DO NOTHING;

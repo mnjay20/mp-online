@@ -638,6 +638,22 @@ async function runEndToEndQASuite() {
     });
     console.log(`✅ 9.3: Final Performance Report generated: Readiness: ${reportRes.json.data.readiness_level}, Score: ${reportRes.json.data.overall_score}/100`);
 
+    // 9d. Download Generated PDF Report (Stream & Magic Bytes Verification)
+    const rawPdfRes = await fetch(`${BASE_URL}/api/interviews/${ctx.createdInterviewId}/report/pdf`, {
+      headers: {
+        Authorization: `Bearer ${ctx.studentToken}`,
+        Connection: 'close',
+      },
+    });
+    if (rawPdfRes.status !== 200) {
+      throw new Error(`Expected HTTP 200 for PDF download, got ${rawPdfRes.status}`);
+    }
+    const pdfBuf = Buffer.from(await rawPdfRes.arrayBuffer());
+    if (rawPdfRes.headers.get('content-type') !== 'application/pdf' || !pdfBuf.subarray(0, 5).toString('ascii').startsWith('%PDF-')) {
+      throw new Error('Interview report PDF download failed integrity check');
+    }
+    console.log(`✅ 9.4: Candidate downloaded official interview assessment PDF (${pdfBuf.length} bytes, %PDF- verified)`);
+
     // -------------------------------------------------------------
     // MODULE 10: AI Copilot & Career Guidance (/api/ai)
     // -------------------------------------------------------------

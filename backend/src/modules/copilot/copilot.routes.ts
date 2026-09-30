@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { CopilotController } from './copilot.controller.js';
+import { GovernmentSchemesController } from '../government-schemes/government-schemes.controller.js';
 import { requireAuth } from '../../middleware/auth.middleware.js';
 import { validateRequest } from '../../middleware/validation.middleware.js';
 import { asyncHandler } from '../../utils/async-handler.js';
@@ -34,5 +35,6 @@ router.post(
 );
 router.post('/match/jobs', asyncHandler(CopilotController.matchJobs));
 router.post('/match/internships', asyncHandler(CopilotController.matchInternships));
+router.post('/government-schemes/recommend', asyncHandler(GovernmentSchemesController.recommendSchemes));
 
 export const copilotRoutes = router;

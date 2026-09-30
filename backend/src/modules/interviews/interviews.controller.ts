@@ -51,4 +51,37 @@ export class InterviewsController {
     const report = await InterviewsService.generateReport(student.id, id, careerTitle);
     return ApiResponse.success(res, report);
   }
+
+  /**
+   * Retrieves the previously generated report with scorecard metrics & PDF download link
+   */
+  static async getReport(req: Request, res: Response) {
+    if (!req.user) throw new UnauthorizedError();
+    const student = await StudentService.requireStudent(req.user.id);
+    const id = getParam(req, 'id');
+    const report = await InterviewsService.getReport(student.id, id);
+    return ApiResponse.success(res, report);
+  }
+
+  /**
+   * Downloads or streams the binary PDF report directly for the user
+   */
+  static async downloadReportPdf(req: Request, res: Response) {
+    if (!req.user) throw new UnauthorizedError();
+    const student = await StudentService.requireStudent(req.user.id);
+    const id = getParam(req, 'id');
+    const view = typeof req.query.view === 'string' ? req.query.view : undefined;
+
+    const pdfResult = await InterviewsService.downloadReportPdf(student.id, id, { view });
+
+    res.setHeader('Content-Type', pdfResult.mimeType);
+    res.setHeader(
+      'Content-Disposition',
+      `${pdfResult.isInline ? 'inline' : 'attachment'}; filename="${pdfResult.filename}"`
+    );
+    res.setHeader('Content-Length', pdfResult.buffer.length);
+    res.setHeader('Cache-Control', 'private, max-age=3600');
+
+    return res.end(pdfResult.buffer);
+  }
 }

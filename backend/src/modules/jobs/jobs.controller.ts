@@ -10,6 +10,17 @@ export class JobsController {
     return ApiResponse.success(res, jobs);
   }
 
+  static async getGovernmentJobs(req: Request, res: Response) {
+    const { degree, gov_category, work_mode, location } = req.query as {
+      degree?: string;
+      gov_category?: string;
+      work_mode?: string;
+      location?: string;
+    };
+    const jobs = await JobsService.getGovernmentJobs({ degree, gov_category, work_mode, location });
+    return ApiResponse.success(res, jobs);
+  }
+
   static async getJobById(req: Request, res: Response) {
     const id = getParam(req, 'id');
     const job = await JobsService.getJobById(id);

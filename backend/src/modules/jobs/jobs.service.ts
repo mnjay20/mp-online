@@ -23,6 +23,50 @@ export class JobsService {
     return data;
   }
 
+  /**
+   * Retrieves public sector and government employment opportunities with degree eligibility filtering
+   */
+  static async getGovernmentJobs(filters?: {
+    degree?: string;
+    gov_category?: string;
+    work_mode?: string;
+    location?: string;
+  }) {
+    let query = supabaseAdmin
+      .from('jobs')
+      .select('*, company:companies(*), job_skills(skill:skills(id, name, category), weight, is_required, required_proficiency)')
+      .eq('is_active', true)
+      .eq('is_government', true)
+      .order('posted_at', { ascending: false });
+
+    if (filters?.gov_category) {
+      query = query.eq('gov_category', filters.gov_category);
+    }
+    if (filters?.work_mode) {
+      query = query.eq('work_mode', filters.work_mode);
+    }
+    if (filters?.location) {
+      query = query.ilike('location', `%${filters.location}%`);
+    }
+
+    const { data, error } = await query;
+    if (error) throw error;
+
+    // Filter by student degree eligibility if provided
+    if (filters?.degree && data) {
+      const targetDegree = filters.degree.toLowerCase().trim();
+      return data.filter((job: any) => {
+        if (!job.eligibility_degrees || job.eligibility_degrees.length === 0) return true;
+        return job.eligibility_degrees.some((deg: string) => {
+          const d = deg.toLowerCase();
+          return d.includes(targetDegree) || targetDegree.includes(d);
+        });
+      });
+    }
+
+    return data;
+  }
+
   static async getJobById(jobId: string) {
     const { data, error } = await supabaseAdmin
       .from('jobs')

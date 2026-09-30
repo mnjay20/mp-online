@@ -9,6 +9,7 @@ import { createJobSchema } from './jobs.schema.js';
 const router = Router();
 
 // Public / Candidate view
+router.get('/government', asyncHandler(JobsController.getGovernmentJobs));
 router.get('/', asyncHandler(JobsController.getAllJobs));
 router.get('/:id', asyncHandler(JobsController.getJobById));
 

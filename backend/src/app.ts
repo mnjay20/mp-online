@@ -19,6 +19,7 @@ import { resumeRoutes } from './modules/resume/resume.routes.js';
 import { interviewsRoutes } from './modules/interviews/interviews.routes.js';
 import { recommendationsRoutes } from './modules/recommendations/recommendations.routes.js';
 import { copilotRoutes } from './modules/copilot/copilot.routes.js';
+import { governmentSchemesRoutes } from './modules/government-schemes/government-schemes.routes.js';
 
 export const createApp = (): Express => {
   const app = express();
@@ -53,6 +54,7 @@ export const createApp = (): Express => {
   app.use('/api/interviews', interviewsRoutes);
   app.use('/api/recommendations', recommendationsRoutes);
   app.use('/api/ai', copilotRoutes);
+  app.use('/api/government-schemes', governmentSchemesRoutes);
 
   // 404 Route Trap
   app.use((_req: Request, _res: Response, next: NextFunction) => {

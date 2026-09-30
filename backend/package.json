@@ -8,8 +8,10 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "test": "tsx tests/smoke.test.ts",
+    "test:gov": "tsx tests/government_and_auth.test.ts",
+    "test:pdf": "tsx tests/interview_pdf_download.test.ts",
     "test:e2e": "tsx tests/e2e_full_platform.test.ts",
-    "test:all": "tsx tests/smoke.test.ts && tsx tests/admin_courses.test.ts && tsx tests/recruiter_ats.test.ts && tsx tests/resume_pipeline.test.ts && tsx tests/e2e_full_platform.test.ts"
+    "test:all": "tsx tests/smoke.test.ts && tsx tests/government_and_auth.test.ts && tsx tests/interview_pdf_download.test.ts && tsx tests/admin_courses.test.ts && tsx tests/recruiter_ats.test.ts && tsx tests/resume_pipeline.test.ts && tsx tests/e2e_full_platform.test.ts"
   },
   "keywords": [
     "express",
@@ -29,6 +31,7 @@
     "mammoth": "^1.13.0",
     "multer": "^2.4.0",
     "pdf-parse": "^2.4.5",
+    "pdfkit": "^0.20.2",
     "zod": "^3.24.2"
   },
   "devDependencies": {
@@ -37,6 +40,7 @@
     "@types/multer": "^2.3.0",
     "@types/node": "^22.13.10",
     "@types/pdf-parse": "^1.1.5",
+    "@types/pdfkit": "^0.17.6",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2"
   }
